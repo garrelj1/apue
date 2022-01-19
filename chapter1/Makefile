@@ -1,16 +1,12 @@
-BUILD_DIR=build
 COMMON_DIR=../appendix
 INC_DIR=../headers
 SRC_DIR=src
 
-CC=gcc
+CC=cc
 CFLAGS=-I $(INC_DIR)
 
-DEPS=$(COMMON_DIR)/apue.c
+DEPS=$(INC_DIR)/apue.h
+DEPSC=$(COMMON_DIR)/apue.c
 
-minils: src/minils.c $(DEPS)
-	$(CC) $(CFLAG) -o $< $(BUILD_DIR)/$@ 
-
-.PHONY clean:
-clean: 
-	rm -rf $(BUILD_DIR)
+minils: $(SRC_DIR)/minils.c $(DEPSC) $(DEPS)
+	$(CC) $(CFLAGS) $< $(DEPSC) -o $@ 
