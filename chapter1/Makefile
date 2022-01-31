@@ -8,14 +8,16 @@ CFLAGS=-I $(INC_DIR)
 DEPS=$(INC_DIR)/apue.h
 DEPSC=$(COMMON_DIR)/apue.c
 
-all: minils.out echo.out
+OBJS_FULL := $(wildcard $(SRC_DIR)/*.c)
+OBJS_NAME := $(notdir $(OBJS_FULL))
+ALL_OBJS := $(patsubst %.c, %.out, $(OBJS_NAME))
+
+.PHONY: all
+all: $(ALL_OBJS)
+
+%.out: $(SRC_DIR)/%.c $(DEPSC) $(DEPS)
+	$(CC) $(CFLAGS) $< $(DEPSC) -o $@ 
 
 .PHONY: clean
 clean:
 	rm *.out
-
-minils.out: $(SRC_DIR)/minils.c $(DEPSC) $(DEPS)
-	$(CC) $(CFLAGS) $< $(DEPSC) -o $@ 
-
-echo.out: $(SRC_DIR)/echo.c $(DEPSC) $(DEPS)
-	$(CC) $(CFLAGS) $< $(DEPSC) -o $@ 
